@@ -1,0 +1,11 @@
+file(GLOB_RECURSE ALL_EXAMPLES *.cpp)
+
+foreach(e ${ALL_EXAMPLES})
+  string(REGEX MATCH "example/.*" RELATIVE_PATH ${e})
+  string(REGEX REPLACE "example/" "" TARGET_NAME ${RELATIVE_PATH})
+  string(REGEX REPLACE ".cpp" "" TARGET_NAME ${TARGET_NAME})
+  add_executable(${TARGET_NAME} ${e})
+  target_include_directories(${TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include())
+  target_link_directories(${TARGET_NAME} PRIVATE ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
+  target_link_libraries(${TARGET_NAME} PRIVATE ${PROJECT_NAME})
+endforeach()
